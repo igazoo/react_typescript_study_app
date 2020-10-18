@@ -3,17 +3,11 @@ import PropTypes from "prop-types";
 import { Task } from "../Type";
 import TaskItem from "./TaskItem";
 import TaskInput from "./TaskInput";
+import { useSelector } from "react-redux";
+import { RootState } from "../rootReducer";
 
-type Props = {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-};
-
-const TaskList: React.FC<Props> = ({ tasks, setTasks }) => {
-  const handleDelete = (task: Task) => {
-    setTasks((prev) => prev.filter((t) => t.id !== task.id));
-  };
-
+const TaskList: React.FC = () => {
+  const { tasks } = useSelector((state: RootState) => state.tasks);
   return (
     <div className="inner">
       {tasks.length <= 0 ? (
@@ -21,8 +15,8 @@ const TaskList: React.FC<Props> = ({ tasks, setTasks }) => {
       ) : (
         <ul className="task-list">
           {tasks.map((task) => (
-            <TaskItem key={task.id} task={task} handleDelete={handleDelete} />
-          ))}
+            <TaskItem task={task} />
+          ))}{" "}
         </ul>
       )}
     </div>

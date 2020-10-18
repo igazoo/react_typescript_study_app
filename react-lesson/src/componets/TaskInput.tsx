@@ -1,30 +1,20 @@
 import React, { useState } from "react";
 import { Task } from "../Type";
+import { addTask } from "../modules/tasksModule";
+import { useDispatch } from "react-redux";
 
-type Props = {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-};
+const TaskInput: React.FC = () => {
+  const dispatch = useDispatch();
 
-const TaskInput: React.FC<Props> = ({ tasks, setTasks }) => {
   const [inputTitle, setInputTitle] = useState("");
-  //idを管理するstate
-  const [count, setCount] = useState(tasks.length + 1);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputTitle(e.target.value);
   };
 
   const handleSubmit = () => {
-    setCount(count + 1);
+    dispatch(addTask(inputTitle));
 
-    const newTask: Task = {
-      id: count,
-      title: inputTitle,
-      done: false,
-    };
-
-    setTasks([newTask, ...tasks]);
     setInputTitle("");
   };
 
